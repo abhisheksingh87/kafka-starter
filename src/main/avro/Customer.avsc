@@ -1,0 +1,25 @@
+{
+  "type": "record",
+  "namespace": "com.wellsfargo.cto.eai.kafkastarter",
+  "name": "Customer",
+  "doc": "Sample default value",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "firstName",
+      "type": "string"
+    },
+    {
+      "name": "lastName",
+      "type": "string"
+    },
+    {
+      "name": "phoneNumber",
+      "type": "string",
+      "default": "000-000-0000"
+    }
+  ]
+}

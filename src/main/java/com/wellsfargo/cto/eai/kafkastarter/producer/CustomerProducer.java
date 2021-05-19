@@ -1,6 +1,5 @@
 package com.wellsfargo.cto.eai.kafkastarter.producer;
 
-import com.wellsfargo.cto.eai.kafkastarter.model.Customer;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -11,8 +10,8 @@ public class CustomerProducer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void sendData(Customer customer) {
-        this.kafkaTemplate.sendDefault(customer.getId(), customer);
+    public void sendAvroData(com.wellsfargo.cto.eai.kafkastarter.Customer customer) {
+        this.kafkaTemplate.send("wf-concurrent-customer", customer.getId(), customer);
     }
 
 }
