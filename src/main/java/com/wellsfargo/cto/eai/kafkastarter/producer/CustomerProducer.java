@@ -14,6 +14,10 @@ public class CustomerProducer {
         this.kafkaTemplate.send("wf-concurrent-customer", customer.getId(), customer);
     }
 
+    public void sendSinglePartitionTopic(com.wellsfargo.cto.eai.kafkastarter.Customer customer) {
+        this.kafkaTemplate.send("wf-customer", customer.getId(), customer);
+    }
+
 }
 
 

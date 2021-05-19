@@ -41,23 +41,35 @@ public class ConcurrentConsumerTest {
     private ConcurrentCustomerConsumer concurrentCustomerConsumer;
 
     @Test
-    public void testAvroData() throws InterruptedException {
+    public void sendAvroData_shouldConsumeCustomer() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         //given
-        com.wellsfargo.cto.eai.kafkastarter.Customer customer = com.wellsfargo.cto.eai.kafkastarter.Customer.newBuilder()
+        com.wellsfargo.cto.eai.kafkastarter.Customer firstCustomer = com.wellsfargo.cto.eai.kafkastarter.Customer.newBuilder()
                 .setId("1")
                 .setFirstName("alex")
                 .setLastName("smith")
                 .setPhoneNumber("424645290").build();
 
-        customerProducer.sendAvroData(customer);
-        customerProducer.sendAvroData(customer);
-        countDownLatch.await(15, TimeUnit.SECONDS);
+        customerProducer.sendAvroData(firstCustomer);
+
+        countDownLatch.await(10, TimeUnit.SECONDS);
 
 
         //then
-        assertThat(concurrentCustomerConsumer.getCustomer()).usingRecursiveComparison().isEqualTo(customer);
+        assertThat(concurrentCustomerConsumer.getCustomer()).usingRecursiveComparison().isEqualTo(firstCustomer);
+
+        com.wellsfargo.cto.eai.kafkastarter.Customer secondCustomer = com.wellsfargo.cto.eai.kafkastarter.Customer.newBuilder()
+                .setId("2")
+                .setFirstName("alex")
+                .setLastName("smith")
+                .setPhoneNumber("424645290").build();
+        customerProducer.sendAvroData(secondCustomer);
+        countDownLatch.await(10, TimeUnit.SECONDS);
+
+
+        //then
+        assertThat(concurrentCustomerConsumer.getCustomer()).usingRecursiveComparison().isEqualTo(secondCustomer);
     }
 
     @Configuration

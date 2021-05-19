@@ -84,7 +84,17 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public NewTopic createTopic() {
-        return TopicBuilder.name("wf-customer").partitions(2).replicas(1).build();
+    public NewTopic createMultiplePartitionTopic() {
+        return TopicBuilder.name("wf-concurrent-customer").partitions(3).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic createSingleTopic() {
+        return TopicBuilder.name("wf-customer").partitions(1).replicas(1).build();
+    }
+
+    @Bean
+    public NewTopic createRetryTopic() {
+        return TopicBuilder.name("wf-retry-customer").partitions(2).replicas(1).build();
     }
 }
